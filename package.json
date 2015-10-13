@@ -1,0 +1,27 @@
+{
+  "name": "joanna",
+  "version": "1.0.0",
+  "description": "It is memory with 雨神.\r I will store all of my picture with her on the repository.",
+  "main": "app.js",
+  "dependencies": {
+    "browser-sync": "^2.9.11",
+    "express": "^4.13.3",
+    "html": "^0.0.10",
+    "gulp": "^3.9.0",
+    "http": "^0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeeHyungGeun/Joanna.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeeHyungGeun/Joanna/issues"
+  },
+  "homepage": "https://github.com/LeeHyungGeun/Joanna#readme"
+}
