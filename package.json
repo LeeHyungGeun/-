@@ -4,13 +4,22 @@
   "description": "It is memory with 雨神.\r I will store all of my picture with her on the repository.",
   "main": "app.js",
   "dependencies": {
-    "browser-sync": "^2.9.11",
     "express": "^4.13.3",
     "html": "^0.0.10",
     "gulp": "^3.9.0",
     "http": "^0.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.9.11",
+    "gulp-concat": "^2.6.0",
+    "gulp-imagemin": "^2.3.0",
+    "gulp-jasmine": "^2.1.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-uglify": "^1.4.2",
+    "gulp-util": "^3.0.6",
+    "gulp-watch": "^4.3.5",
+    "imagemin-pngquant": "^4.2.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
