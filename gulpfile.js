@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync').create(),
     src = '',
     toSrc = '',
-    jslist = [''];//['bower_components/angular/angular.js',
+    jslist = ['js/*.js'];//['bower_components/angular/angular.js',
             //  'bower_components/angular-route/angular-route.js'];
 
 
@@ -51,7 +51,7 @@ gulp.task('minifycss', function () {
 });
 // minify image
 gulp.task('minifyimages', function () {
-  src = '*';
+  src = 'images/*';
   toSrc = 'build/images';
   gulp
   .src(src)
@@ -80,34 +80,3 @@ gulp.task('jasmine', function () {
 gulp.task('default', ['minifyjs', 'minifycss', 'lint', 'minifyimages', 'webserver']);
 
 // 链接: lianjie => link
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // browserSync = require('browser-sync').create();
-
-
-// // Static server
-// gulp.task('browser-sync', function () {
-//   browserSync.init({
-//     server: {
-//       baseDir: "./"
-//     },
-//     port: 3000
-//   });
-//   browserSync.watch('*.html').on('change', browserSync.reload);
-//   //browserSync.watch('server.js').on('change', browserSync.reload);
-// });
-
-// gulp.task('default', ['browser-sync']);
