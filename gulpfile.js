@@ -1,82 +1,63 @@
-var gulp = require('gulp'),
-    concat = require('gulp-concat'),
-    watch = require('gulp-watch'),
-    uglify = require('gulp-uglify'),
-    minifyCss = require('gulp-minify-css'),
-    imagemin = require('gulp-imagemin'),
-    pngquant = require('imagemin-pngquant'),
-    jshint = require('gulp-jshint'),
-    jasmine = require('gulp-jasmine'),
-    browserSync = require('browser-sync').create(),
-    src = '',
-    toSrc = '',
-    jslist = ['js/*.js'];//['bower_components/angular/angular.js',
-            //  'bower_components/angular-route/angular-route.js'];
+var gulp = require("gulp");
+var gutil = require("gulp-util");
+var webpack = require("webpack");
+var WebpackDevServer = require("webpack-dev-server");
+var webpackConfig = require("./webpack.config.js");
 
+// The development server (the recommended option for development)
+gulp.task("default", ["webpack-dev-server"]);
+gulp.task("webpack-dev-server", function(callback) {
+    // modify some webpack config options
+    var myConfig = Object.create(webpackConfig);
+    myConfig.devtool = "eval";
+    myConfig.debug = true;
 
-
-// Static server
-gulp.task('webserver', function () {
-  src = '*.html';
-  browserSync.init({
-    server: {
-      baseDir: "./"
-    }
-  });
-  gulp
-  .src(src)
-  .pipe(watch(src))
-  .on('change', browserSync.reload);
+    // Start a webpack-dev-server
+    new WebpackDevServer(webpack(myConfig), {
+        contentBase: "app",
+        proxy: [{
+            path: /\/edit\/rest(.*)/,
+            target: "http://notice.worksmobile.com:8080/"
+        }],
+        host: "notice.worksmobile.com",
+        publicPath: '/assets/',
+        stats: {
+            hot: true,
+            colors: true
+        }
+    }).listen(8880, "localhost", function(err) {
+        if (err) throw new gutil.PluginError("webpack-dev-server", err);
+        gutil.log("[webpack-dev-server]", "http://localhost:80/webpack-dev-server/index.html");
+    });
 });
-
-// minify javascript
-gulp.task('minifyjs', function () {
-  src = jslist;
-  toSrc = 'build/js';
-  gulp
-  .src(src)
-  .pipe(uglify())
-  .pipe(concat('joanna.js'))
-  .pipe(gulp.dest(toSrc));
-});
-// minify css
-gulp.task('minifycss', function () {
-  src = 'bower_components/**/*.css';
-  toSrc = 'build/css';
-  gulp
-  .src(src)
-  .pipe(minifyCss({compatibility: "ie8"}))
-  .pipe(concat('joanna.css'))
-  .pipe(gulp.dest('build/css'));
-});
-// minify image
-gulp.task('minifyimages', function () {
-  src = 'images/*';
-  toSrc = 'build/images';
-  gulp
-  .src(src)
-  .pipe(imagemin({
-    progressive: true,
-    svgoPlugins: [{removeViewBox: false}],
-    use: [pngquant()]
-  }))
-  .pipe(gulp.dest(toSrc));
-});
-// code qualities
-gulp.task('lint', function () {
-  src = jslist;
-  gulp
-  .src(src)
-  .pipe(jshint())
-  .pipe(jshint.reporter('default'));
-});
-gulp.task('jasmine', function () {
-  src = jslist;
-  gulp
-  .src(src)
-  .pipe(jasmine());
-});
-
-gulp.task('default', ['minifyjs', 'minifycss', 'lint', 'minifyimages', 'webserver']);
-
-// 链接: lianjie => link
+// var gulp = require('gulp'),
+//     gutil = require('gulp-util'),
+//     webpack = require('webpack'),
+//     WebpackDevServer = require('webpack-dev-server'),
+//     webpackConfig = require('./webpack.config.js');
+//
+// gulp.task('default', ['webpack-dev-server']);
+// gulp.task('webpack-dev-server', function (callback) {
+//   var myConfig = Object.create(webpackConfig);
+//   myConfig.devtool = 'eval';
+//   myConfig.debug = true;
+//
+//   new WebpackDevServer(webpack(myConfig), {
+//     contentBase: 'app',
+//     proxy: [{
+//       path: '',
+//       target: 'http://127.0.0.1:8000/'
+//     }],
+//     host: '127.0.0.1',
+//     publicPath: '/assets/',
+//     stats: {
+//       hot: true,
+//       colors: true
+//     }
+//   }).listen(8888, '127.0.0.1', function (err) {
+//     if (err) {
+//       throw new gutil.PluginError('webpack-dev-server', err);
+//     }
+//     gutil.log('[webpack-dev-server]', 'http://localhost:80/webpack-dev-sever/index.html');
+//   });
+// });
